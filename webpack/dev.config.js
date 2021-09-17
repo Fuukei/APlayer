@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const gitRevisionPlugin = new GitRevisionPlugin();
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
@@ -39,7 +39,7 @@ module.exports = {
                         loader: 'babel-loader',
                         options: {
                             cacheDirectory: true,
-                            presets: ['@babel/preset-env'],
+                            presets: [['@babel/preset-env', { corejs: "3.8", useBuiltIns: "entry" }]],
                         },
                     },
                 ],
@@ -57,7 +57,9 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: [autoprefixer, cssnano],
+                            postcssOptions: {
+                                plugins: [autoprefixer, cssnano],
+                            }
                         },
                     },
                     'sass-loader',
@@ -83,15 +85,25 @@ module.exports = {
 
     devServer: {
         compress: true,
-        contentBase: path.resolve(__dirname, '..', 'demo'),
-        clientLogLevel: 'none',
-        quiet: false,
+        static: {
+            directory: path.resolve(__dirname, '..', 'demo'),
+            watch: {
+                ignored: /node_modules/,
+            }
+        },
         open: true,
         historyApiFallback: {
             disableDotRule: true,
-        },
-        watchOptions: {
-            ignored: /node_modules/,
+        }, client: {
+            logging: "info",
+            // Can be used only for `errors`/`warnings`
+            //
+            // overlay: {
+            //   errors: true,
+            //   warnings: true,
+            // }
+            overlay: true,
+            progress: true,
         },
     },
 
@@ -101,13 +113,6 @@ module.exports = {
             GIT_HASH: JSON.stringify(gitRevisionPlugin.version()),
         }),
     ],
-
-    node: {
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-    },
 
     performance: {
         hints: false,
