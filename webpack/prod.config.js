@@ -35,8 +35,7 @@ module.exports = {
         filename: '[name].min.js',
         library: {
             type: 'module',
-            export:"default"
-        },
+        },chunkFormat:"module",
         publicPath: '/',
     },
     experiments: {
@@ -97,6 +96,9 @@ module.exports = {
             {
                 test: /\.art$/,
                 loader: 'art-template-loader',
+                options:{
+                    minimize:true,
+                }
             },
         ],
     },
