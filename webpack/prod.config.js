@@ -26,7 +26,7 @@ module.exports = {
                     ecma: 2015,
                     module: true,
                     toplevel: true
-                },
+                },extractComments:false
             })
         ]
     },
