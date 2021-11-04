@@ -106,7 +106,7 @@ $aplayer-height-lrc: $aplayer-height + $lrc-height - 6;
         .aplayer-lrc {
             display: block;
             position: fixed;
-            bottom: 10px;
+            bottom: 0px;
             left: 0;
             right: 0;
             margin: 0;
