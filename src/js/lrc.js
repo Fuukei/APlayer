@@ -95,6 +95,8 @@ class Lrc {
      */
     parse(lrc_s) {
         if (lrc_s) {
+            lrc_s = lrc_s.replace(/^"/, '')
+            lrc_s = lrc_s.replace(/"$/, '')
             lrc_s = lrc_s.replace(/([^\]^\n])\[/g, (match, p1) => p1 + '\n[');
             const lyric = lrc_s.split('\n');
             let lrc = [];
