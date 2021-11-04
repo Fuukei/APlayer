@@ -95,8 +95,9 @@ class Lrc {
      */
     parse(lrc_s) {
         if (lrc_s) {
-            lrc_s = lrc_s.replace(/^"/, '')
-            lrc_s = lrc_s.replace(/"$/, '')
+            if (lrc_s.startsWith('"') && lrc_s.endsWith('"')) {
+                lrc_s = JSON.parse(lrc_s)
+            }
             lrc_s = lrc_s.replace(/([^\]^\n])\[/g, (match, p1) => p1 + '\n[');
             const lyric = lrc_s.split('\n');
             let lrc = [];
